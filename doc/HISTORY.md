@@ -4,6 +4,13 @@
 
 ### Version 0.0
 
+**Version 0.0.3** (2022/03/30)
+
+- Gazebo launch file to spawn robot in an empty world
+- Changed length of the model (0.6 to 0.3)
+- Fixed bug in `<origin>` tag for `base_link`
+- Fixed bug in the `wheel` xacro macro
+
 **Version 0.0.2** (2022/03/30)
 
 - URDF model for a four-wheel differential drive robot

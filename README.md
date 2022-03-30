@@ -1,12 +1,16 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.0.2**
+**Version 0.0.3**
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **With this version, it is possible to do:**
 
+- Gazebo launch file to spawn robot in an empty world
+- Changed length of the model (0.6 to 0.3)
+- Fixed bug in `<origin>` tag for `base_link`
+- Fixed bug in the `wheel` xacro macro
 - URDF model for a four-wheel differential drive robot
   ([diff_drive_4](/urdf/diff_drive_4.urdf.xacro))
 - Fixed bug in package.xml (due to previously specifying format as 2)
@@ -54,6 +58,14 @@ None.
 ### Actions
 
 None.
+
+## Usage
+
+### Spawn robot in an empty world
+
+```shell
+$ roslaunch robot_sim_diff_drive_rbs gazebo.launch
+```
 
 ## Contacts
 
