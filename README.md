@@ -7,7 +7,7 @@ Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **With this version, it is possible to do:**
 
-Nothing.
+- Fixed bug in package.xml (due to previously specifying format as 2)
 
 **The next version will add these features:**
 
