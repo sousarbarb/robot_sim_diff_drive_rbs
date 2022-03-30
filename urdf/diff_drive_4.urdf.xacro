@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot name="roscontrol" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--
+    Run the following command to check if the urdf file is ok:
+    ~$ xacro diff_drive_4.urdf.xacro > tmp.urdf && check_urdf tmp.urdf && rm tmp.urdf
+  -->
+
+  <!-- Xacro properties definition -->
+  <xacro:property name="odom_dist_wh" value="0.2"/>
+  <xacro:property name="odom_diam_wh_r" value="0.06"/>
+  <xacro:property name="odom_diam_wh_l" value="0.06"/>
+  <xacro:property name="odom_diam"
+                  value="${(odom_diam_wh_r+odom_diam_wh_l)/2}"/>
+  <xacro:property name="wh_thick" value="0.005"/>
+  <xacro:property name="body_gnd_height" value="0.02"/>
+  <xacro:property name="body_wh_space" value="0.005"/>
+  <xacro:property name="body_len" value="0.3"/>
+  <xacro:property name="body_width"
+                  value="${odom_dist_wh-wh_thick-2*body_wh_space}"/>
+  <xacro:property name="body_height" value="0.1"/>
+
+
+  <!-- Materials definition -->
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+
+  <!-- Xacro Macro definitions -->
+  <!-- + default inertial model (dependent on the objects mass): -->
+  <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- + wheel macro:
+         - prefix  : relative to the default name
+         - sufix   : relative to the default name
+         - reflect : 1 or -1 (default or inverted orientation relative to
+                     parent frame)
+         - offset  : relative to the parent frame in x axis -->
+  <xacro:macro name="wheel" params="prefix suffix reflect offset:=0">
+    <link name="${prefix}_${suffix}_wheel">
+      <visual>
+        <!-- Origin relative to the link frame -->
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
+        </geometry>
+      </collision>
+      <xacro:default_inertial mass="0.05"/>
+    </link>
+    <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
+      <!-- axis and rotation always defined relative to parent frame -->
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="${prefix}_${suffix}_wheel"/>
+      <origin xyz="${offset} ${reflect*odom_dist_wh/2} 0" rpy="0 0 0"/>
+    </joint>
+    <!-- This block provides the simulator (Gazebo) with information on a few
+         additional physical properties.
+         See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
+    <gazebo reference="${prefix}_${suffix}_wheel">
+      <mu1 value="200.0"/>
+      <mu2 value="100.0"/>
+      <kp value="10000000.0"/>
+      <kd value="1.0"/>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <!-- This block connects the wheel joint to an actuator (motor), which informs both
+    simulation and visualization of the robot -->
+    <transmission name="${prefix}_${suffix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${prefix}_${suffix}_wheel_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="${prefix}_${suffix}_wheel_joint">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+  </xacro:macro>
+
+
+  <!-- Body -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}"/>
+      </geometry>
+    </collision>
+    <xacro:default_inertial mass="1.00"/>
+  </link>
+
+
+  <!-- Wheels -->
+  <xacro:wheel prefix="right" suffix="front" reflect="-1"/>
+  <xacro:wheel prefix="left"  suffix="front" reflect="1"/>
+  <xacro:wheel prefix="right" suffix="back"  reflect="-1"
+               offset="${odom_diam-body_len}"/>
+  <xacro:wheel prefix="left"  suffix="back"  reflect="1"
+               offset="${odom_diam-body_len}"/>
+
+
+  <!-- Gazebo plugin for ROS Control -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
