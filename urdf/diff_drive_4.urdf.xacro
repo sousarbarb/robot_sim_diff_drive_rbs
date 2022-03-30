@@ -15,7 +15,7 @@
   <xacro:property name="wh_thick" value="0.005"/>
   <xacro:property name="body_gnd_height" value="0.02"/>
   <xacro:property name="body_wh_space" value="0.005"/>
-  <xacro:property name="body_len" value="0.6"/>
+  <xacro:property name="body_len" value="0.3"/>
   <xacro:property name="body_width"
                   value="${odom_dist_wh-wh_thick-2*body_wh_space}"/>
   <xacro:property name="body_height" value="0.1"/>
