@@ -8,7 +8,7 @@ Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 **With this version, it is possible to do:**
 
 - URDF model for a four-wheel differential drive robot
-  ([diff_drive_4](urdf/diff_drive_4.urdf.xacro))
+  ([diff_drive_4](/urdf/diff_drive_4.urdf.xacro))
 - Fixed bug in package.xml (due to previously specifying format as 2)
 
 **The next version will add these features:**
