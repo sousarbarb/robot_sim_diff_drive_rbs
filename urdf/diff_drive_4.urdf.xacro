@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <robot name="roscontrol" xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!--
+    Run the following command to check if the urdf file is ok:
+    ~$ xacro diff_drive_4.urdf.xacro > tmp.urdf && check_urdf tmp.urdf && rm tmp.urdf
+  -->
+
   <!-- Xacro properties definition -->
   <xacro:property name="odom_dist_wh" value="0.2"/>
   <xacro:property name="odom_diam_wh_r" value="0.06"/>
@@ -66,7 +71,7 @@
     <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
       <!-- axis and rotation always defined relative to parent frame -->
       <axis xyz="0 1 0" rpy="0 0 0" />
-      <parent link="${base_link}"/>
+      <parent link="base_link"/>
       <child link="${prefix}_${suffix}_wheel"/>
       <origin xyz="${offset} ${reflect*odom_dist_wh/2} 0" rpy="0 0 0"/>
     </joint>
@@ -98,17 +103,17 @@
   <!-- Body -->
   <link name="base_link">
     <visual>
+      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
       <geometry>
-        <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
-                rpy="0 0 0"/>
         <box size="${body_len} ${body_width} ${body_height}"/>
       </geometry>
       <material name="blue"/>
     </visual>
     <collision>
+      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
       <geometry>
-        <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
-                rpy="0 0 0"/>
         <box size="${body_len} ${body_width} ${body_height}"/>
       </geometry>
     </collision>
