@@ -1,6 +1,6 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.0.0:**
+**Version 0.0.1:**
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
