@@ -66,7 +66,7 @@
           <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
         </geometry>
       </collision>
-      <xacro:default_inertial mass="1"/>
+      <xacro:default_inertial mass="0.05"/>
     </link>
     <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
       <!-- axis and rotation always defined relative to parent frame -->
@@ -117,7 +117,7 @@
         <box size="${body_len} ${body_width} ${body_height}"/>
       </geometry>
     </collision>
-    <xacro:default_inertial mass="10"/>
+    <xacro:default_inertial mass="1.00"/>
   </link>
 
 

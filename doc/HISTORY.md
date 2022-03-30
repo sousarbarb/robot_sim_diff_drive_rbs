@@ -4,6 +4,13 @@
 
 ### Version 0.0
 
+**Version 0.0.4** (2022/03/30)
+
+- Changed spawn of the robot to `z=0`
+- Changed mass of wheels and body to more appropriate values
+- Read automatically from URDF the odometry parameters
+- Launch file to link ROS and Gazebo
+
 **Version 0.0.3** (2022/03/30)
 
 - Gazebo launch file to spawn robot in an empty world
