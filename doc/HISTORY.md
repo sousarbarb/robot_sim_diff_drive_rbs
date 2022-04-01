@@ -2,6 +2,11 @@
 
 ## Version 0
 
+**Version 0.1.2** (2022/04/01)
+
+- 2D laser scanner on top of the robots
+- Absolute paths when including files in a xacro file
+
 **Version 0.1.1** (2022/04/01)
 
 - Launch file with an argument to select the intended URDF model
