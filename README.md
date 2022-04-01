@@ -1,29 +1,28 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.0.4** (2022/03/30)
+**Version 0.0.5** (2022/04/01)
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **With this version, it is possible to do:**
 
-- Changed spawn of the robot to `z=0`
-- Changed mass of wheels and body to more appropriate values
-- Read automatically from URDF the odometry parameters
-- Launch file to link ROS and Gazebo
-- Gazebo launch file to spawn robot in an empty world
-- Changed length of the model (0.6 to 0.3)
-- Fixed bug in `<origin>` tag for `base_link`
-- Fixed bug in the `wheel` xacro macro
-- URDF model for a four-wheel differential drive robot
-  ([diff_drive_4](/urdf/diff_drive_4.urdf.xacro))
-- Fixed bug in package.xml (due to previously specifying format as 2)
+- Complete URDF model with odometry of a
+  [four-wheel differential drive robot](/urdf/diff_drive_4.urdf.xacro)
+  (aka skid-steer drive)
 
 **The next version will add these features:**
 
-- Fix bug related to oscillating robot in simulation
-- Fix bug related to the `base_link` being the center of the body for the 
-  four-wheeled omnidirectional robot
+- Complete URDF model with odometry of a two-wheeled differential drive robot
+
+## Models
+
+### [Four-wheeled differential drive robot](/urdf/diff_drive_4.urdf.xacro)
+
+- Equivalent to a skid-steer drive robot
+- Angular motion should make the robot slipping (bad for odometry)
+
+![Simulated Skid Steer Drive Robot](/doc/img/diff_drive_4.png)
 
 ## ROS
 

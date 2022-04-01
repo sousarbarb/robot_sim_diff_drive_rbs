@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Default inertial model -->
+  <xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="1.0" iyz="0.0"
+               izz="1.0"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Solid sphere -->
+  <xacro:macro name="inertial_sphere" params="mass radius">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${0.4*mass*radius*radius}" ixy="0.0" ixz="0.0"
+               iyy="${0.4*mass*radius*radius}" iyz="0.0"
+               izz="${0.4*mass*radius*radius}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Solid cuboid body (rotation around its center of mass) -->
+  <xacro:macro name="inertial_body_cuboid" params="mass size_x size_y size_z">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass*(size_y*size_y+size_z*size_z)/12}" ixy="0.0" ixz="0.0"
+               iyy="${mass*(size_x*size_x+size_z*size_z)/12}" iyz="0.0"
+               izz="${mass*(size_x*size_x+size_y*size_y)/12}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- Solid cylinder wheel -->
+  <xacro:macro name="inertial_wh_cylinder" params="mass radius height">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass*(3*radius*radius+height*height)/12}" ixy="0.0" ixz="0.0"
+               iyy="${mass*(3*radius*radius+height*height)/12}" iyz="0.0"
+               izz="${mass*(3*radius*radius+height*height)/12}"/>
+    </inertial>
+  </xacro:macro>
+
+</robot>
