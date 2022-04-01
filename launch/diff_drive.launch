@@ -8,14 +8,14 @@
          value="$(find robot_sim_diff_drive_rbs)/urdf/$(arg model).urdf.xacro"/>
   </include>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
 
   <rosparam command="load"
             file="$(find robot_sim_diff_drive_rbs)/config/joints.yaml"
-            ns="diff_rbs_joint_state_controller" />
+            ns="diff_rbs_joint_state_controller"/>
   <rosparam command="load"
             file="$(find robot_sim_diff_drive_rbs)/config/$(arg model).yaml"
-            ns="diff_rbs_diff_drive_controller" />
+            ns="diff_rbs_diff_drive_controller"/>
 
   <node name="diff_rbs_controller_spawner" pkg="controller_manager" type="spawner"
         args="diff_rbs_joint_state_controller diff_rbs_diff_drive_controller
