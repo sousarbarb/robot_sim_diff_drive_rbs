@@ -1,6 +1,6 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.0.5** (2022/04/01)
+**Version 0.1.0** (2022/04/01)
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
@@ -8,14 +8,25 @@ Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 **With this version, it is possible to do:**
 
 - Complete URDF model with odometry of a
+  [two-wheeled differential drive robot](/urdf/diff_drive.urdf.xacro)
+- Complete URDF model with odometry of a
   [four-wheel differential drive robot](/urdf/diff_drive_4.urdf.xacro)
   (aka skid-steer drive)
 
 **The next version will add these features:**
 
-- Complete URDF model with odometry of a two-wheeled differential drive robot
+- 2D laser scanner on top of the robots
+- Launch file with an argument to select the intended URDF model
 
 ## Models
+
+### [Two-wheeled differential drive robot](/urdf/diff_drive.urdf.xacro)
+
+- Odometry working fine
+- Two caster wheels simulated with two spheres (front and back to support the
+  robot)
+
+![Simulated Differential Drive Robot](/doc/img/diff_drive.png)
 
 ### [Four-wheeled differential drive robot](/urdf/diff_drive_4.urdf.xacro)
 

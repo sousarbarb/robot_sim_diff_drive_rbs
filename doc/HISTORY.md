@@ -2,6 +2,11 @@
 
 ## Version 0
 
+**Version 0.1.0** (2022/04/01)
+
+- Complete URDF model with odometry of a
+  [two-wheeled differential drive robot](/urdf/diff_drive.urdf.xacro)
+
 ### Version 0.0
 
 _(summary)_
