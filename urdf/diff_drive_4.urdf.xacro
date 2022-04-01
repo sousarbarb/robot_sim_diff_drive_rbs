@@ -36,13 +36,8 @@
 
 
   <!-- Xacro Macro definitions -->
-  <!-- + default inertial model (dependent on the objects mass): -->
-  <xacro:macro name="default_inertial" params="mass">
-    <inertial>
-      <mass value="${mass}"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-    </inertial>
-  </xacro:macro>
+  <!-- + inertial models: -->
+  <xacro:include filename="inertia.urdf.xacro"/>
 
   <!-- + wheel macro:
          - prefix  : relative to the default name
@@ -66,7 +61,8 @@
           <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
         </geometry>
       </collision>
-      <xacro:default_inertial mass="0.05"/>
+      <xacro:inertial_wh_cylinder mass="0.05"
+                                  radius="${odom_diam/2}" height="${wh_thick}"/>
     </link>
     <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
       <!-- axis and rotation always defined relative to parent frame -->
@@ -117,7 +113,9 @@
         <box size="${body_len} ${body_width} ${body_height}"/>
       </geometry>
     </collision>
-    <xacro:default_inertial mass="1.00"/>
+    <xacro:inertial_body_cuboid mass="1.00"
+                                size_x="${body_len}" size_y="${body_width}"
+                                size_z="${body_height}"/>
   </link>
 
 
