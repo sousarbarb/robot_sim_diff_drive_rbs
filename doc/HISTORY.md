@@ -4,6 +4,19 @@
 
 ### Version 0.0
 
+_(summary)_
+
+- Complete URDF model with odometry of a
+  [four-wheel differential drive robot](/urdf/diff_drive_4.urdf.xacro)
+  (aka skid-steer drive)
+
+**Version 0.0.5** (2022/04/01)
+
+- Parametric inertia models
+- Fix bug related to oscillating robot in simulation
+- Fix bug related to the `base_link` being the center of the body for the
+  four-wheeled omnidirectional robot
+
 **Version 0.0.4** (2022/03/30)
 
 - Changed spawn of the robot to `z=0`
