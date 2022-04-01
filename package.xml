@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>robot_sim_diff_drive_rbs</name>
-  <version>0.0.5</version>
+  <version>0.1.0</version>
   <description>The robot_sim_diff_drive_rbs package</description>
 
   <!-- Maintainer -->

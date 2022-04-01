@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<robot name="roscontrol" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--
+    Run the following command to check if the urdf file is ok:
+    ~$ xacro diff_drive.urdf.xacro > tmp.urdf && check_urdf tmp.urdf && rm tmp.urdf
+  -->
+
+  <!-- Xacro properties definition -->
+  <xacro:property name="odom_dist_wh" value="0.2"/>
+  <xacro:property name="odom_diam_wh_r" value="0.06"/>
+  <xacro:property name="odom_diam_wh_l" value="0.06"/>
+  <xacro:property name="odom_diam"
+                  value="${(odom_diam_wh_r+odom_diam_wh_l)/2}"/>
+  <xacro:property name="wh_thick" value="0.005"/>
+  <xacro:property name="wh_caster_diam" value="0.01"/>
+  <xacro:property name="body_gnd_height" value="${wh_caster_diam*2}"/>
+  <xacro:property name="body_wh_space" value="0.005"/>
+  <xacro:property name="body_len" value="0.3"/>
+  <xacro:property name="body_width"
+                  value="${odom_dist_wh-wh_thick-2*body_wh_space}"/>
+  <xacro:property name="body_height" value="0.1"/>
+
+
+  <!-- Materials definition -->
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+
+  <!-- Xacro Macro definitions -->
+  <!-- + inertial models: -->
+  <xacro:include filename="inertia.urdf.xacro"/>
+
+  <!-- + caster wheel macro: -->
+  <xacro:macro name="caster_wheel" params="prefix reflect">
+    <link name="${prefix}_caster_wheel">
+      <visual>
+        <!-- Origin relative to the link frame -->
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="${wh_caster_diam/2}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="${wh_caster_diam/2}"/>
+        </geometry>
+      </collision>
+      <!--
+       the inertia model in this case should be a sphere with angular motion
+        around an axis that could be offset relative to the sphere's center
+       -->
+      <xacro:inertial_sphere mass="0.01" radius="${wh_caster_diam/2}"/>
+      <!--xacro:default_inertial mass="0.01"/-->
+    </link>
+    <joint name="${prefix}_caster_wheel_joint" type="fixed">
+      <!-- origin relative to parent frame -->
+      <parent link="base_link"/>
+      <child link="${prefix}_caster_wheel"/>
+      <origin
+        xyz="${reflect*(body_len/2-wh_caster_diam/2)} 0 ${wh_caster_diam/2-odom_diam/2}"
+        rpy="0 0 0"/>
+    </joint>
+    <gazebo reference="${prefix}_caster_wheel">
+      <fdir1 value="1 0 0"/>
+      <mu1 value="0.0"/>
+      <mu2 value="0.0"/>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- + wheel macro:
+         - prefix  : relative to the default name
+         - reflect : 1 or -1 (default or inverted orientation relative to
+                     parent frame)
+         - offset  : relative to the parent frame in x axis -->
+  <xacro:macro name="wheel" params="prefix reflect offset:=0">
+    <link name="${prefix}_wheel">
+      <visual>
+        <!-- Origin relative to the link frame -->
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+          <cylinder radius="${odom_diam/2}" length="${wh_thick}"/>
+        </geometry>
+      </collision>
+      <xacro:inertial_wh_cylinder mass="0.05"
+                                  radius="${odom_diam/2}" height="${wh_thick}"/>
+    </link>
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <!-- axis and rotation always defined relative to parent frame -->
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz="${offset} ${reflect*odom_dist_wh/2} 0" rpy="0 0 0"/>
+    </joint>
+    <!-- This block provides the simulator (Gazebo) with information on a few
+         additional physical properties.
+         See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
+    <gazebo reference="${prefix}_wheel">
+      <!--fdir1 value="1 0 0"/-->
+      <mu1 value="1.0"/>
+      <mu2 value="1.0"/>
+      <kp value="10000000.0"/>
+      <kd value="1.0"/>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <!-- This block connects the wheel joint to an actuator (motor), which
+         informs both simulation and visualization of the robot -->
+    <transmission name="${prefix}_wheel_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${prefix}_wheel_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="${prefix}_wheel_joint">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+  </xacro:macro>
+
+
+  <!-- Body -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+              rpy="0 0 0"/>
+      <geometry>
+        <box size="${body_len} ${body_width} ${body_height}"/>
+      </geometry>
+    </collision>
+    <xacro:inertial_body_cuboid mass="1.00"
+                                size_x="${body_len}" size_y="${body_width}"
+                                size_z="${body_height}"/>
+  </link>
+
+
+  <!-- Wheels -->
+  <xacro:wheel prefix="right" reflect="-1" offset="0"/>
+  <xacro:wheel prefix="left"  reflect="1"  offset="0"/>
+
+
+  <!-- Caster Wheels -->
+  <xacro:caster_wheel prefix="front" reflect="1"/>
+  <xacro:caster_wheel prefix="back"  reflect="-1"/>
+
+
+  <!-- Gazebo plugin for ROS Control -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/</robotNamespace>
+    </plugin>
+  </gazebo>
+
+</robot>
