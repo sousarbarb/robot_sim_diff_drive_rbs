@@ -2,6 +2,10 @@
 
 ## Version 0
 
+**Version 0.1.1** (2022/04/01)
+
+- Launch file with an argument to select the intended URDF model
+
 **Version 0.1.0** (2022/04/01)
 
 - Complete URDF model with odometry of a
