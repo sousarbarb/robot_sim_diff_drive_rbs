@@ -99,7 +99,7 @@
   <!-- Body -->
   <link name="base_link">
     <visual>
-      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+      <origin xyz="0 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
               rpy="0 0 0"/>
       <geometry>
         <box size="${body_len} ${body_width} ${body_height}"/>
@@ -107,7 +107,7 @@
       <material name="blue"/>
     </visual>
     <collision>
-      <origin xyz="${odom_diam/2-body_len/2} 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
+      <origin xyz="0 0 ${-odom_diam/2+body_gnd_height+body_height/2}"
               rpy="0 0 0"/>
       <geometry>
         <box size="${body_len} ${body_width} ${body_height}"/>
@@ -120,12 +120,14 @@
 
 
   <!-- Wheels -->
-  <xacro:wheel prefix="right" suffix="front" reflect="-1"/>
-  <xacro:wheel prefix="left"  suffix="front" reflect="1"/>
+  <xacro:wheel prefix="right" suffix="front" reflect="-1"
+               offset="${body_len/2-odom_diam/2}"/>
+  <xacro:wheel prefix="left"  suffix="front" reflect="1"
+               offset="${body_len/2-odom_diam/2}"/>
   <xacro:wheel prefix="right" suffix="back"  reflect="-1"
-               offset="${odom_diam-body_len}"/>
+               offset="-${body_len/2-odom_diam/2}"/>
   <xacro:wheel prefix="left"  suffix="back"  reflect="1"
-               offset="${odom_diam-body_len}"/>
+               offset="-${body_len/2-odom_diam/2}"/>
 
 
   <!-- Gazebo plugin for ROS Control -->
