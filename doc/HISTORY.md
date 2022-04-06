@@ -2,6 +2,14 @@
 
 ## Version 0
 
+### Version 0.1
+
+**Version 0.1.3** (2022/04/06)
+
+- Usage of the
+  [`diff_drive_controller_rbs`](https://github.com/sousarbarb/diff_drive_controller_rbs)
+  controller for differential drive robots
+
 **Version 0.1.2** (2022/04/01)
 
 - 2D laser scanner on top of the robots

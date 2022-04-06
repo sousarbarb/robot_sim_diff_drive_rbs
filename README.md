@@ -1,12 +1,15 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.1.2** (2022/04/01)
+**Version 0.1.3** (2022/04/06)
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **With this version, it is possible to do:**
 
+- Usage of the
+  [`diff_drive_controller_rbs`](https://github.com/sousarbarb/diff_drive_controller_rbs)
+  controller for differential drive robots
 - 2D laser scanner on top of the robots
 - Absolute paths when including files in a xacro file
 - Launch file with an argument to select the intended URDF model
@@ -48,7 +51,7 @@ Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 ### Dependencies
 
 - controller_manager
-- diff_drive_controller
+- diff_drive_controller_rbs
 - gazebo_ros
 - gazebo_ros_control
 - joint_state_controller
