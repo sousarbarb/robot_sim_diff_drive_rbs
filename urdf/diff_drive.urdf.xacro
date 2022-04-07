@@ -144,7 +144,8 @@
   <!-- Body -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 ${-odom_diam_max/2+body_gnd_height+body_height/2}"
+      <origin
+        xyz="${odom_diam_max/2-body_len/2} 0 ${-odom_diam_max/2+body_gnd_height+body_height/2}"
               rpy="0 0 0"/>
       <geometry>
         <box size="${body_len} ${body_width} ${body_height}"/>
@@ -155,11 +156,11 @@
       <origin xyz="0 0 ${-odom_diam_max/2+body_gnd_height+body_height/2}"
               rpy="0 0 0"/>
       <geometry>
-        <box size="${body_len} ${body_width} ${body_height}"/>
+        <box size="${odom_diam_max} ${body_width} ${body_height}"/>
       </geometry>
     </collision>
     <xacro:inertial_body_cuboid mass="1.00"
-                                size_x="${body_len}" size_y="${body_width}"
+                                size_x="${odom_diam_max}" size_y="${body_width}"
                                 size_z="${body_height}"/>
   </link>
 
