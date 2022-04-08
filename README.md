@@ -1,12 +1,15 @@
 # robot_sim_diff_drive_rbs
 
-**Version 0.1.3** (2022/04/06)
+**Version 0.1.4** (2022/04/07)
 
 This project is a simulated differential drive robot intended to be used with
 Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **With this version, it is possible to do:**
 
+- Fixed gravity bug of having only 1 simulated caster wheel for `diff_drive`
+- `diff_drive` model compatible with different radius for each wheel (left 
+  and right)
 - Usage of the
   [`diff_drive_controller_rbs`](https://github.com/sousarbarb/diff_drive_controller_rbs)
   controller for differential drive robots
@@ -21,7 +24,6 @@ Gazebo. The robot is specified within a ROS package using URDF/Xacro files.
 
 **The next version will add these features:**
 
-- Fix namespace of the base laser scanner topic
 - IMU
 
 ## Models

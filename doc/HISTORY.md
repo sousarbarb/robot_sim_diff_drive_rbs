@@ -4,6 +4,17 @@
 
 ### Version 0.1
 
+_(summary)_
+
+- Complete URDF model with odometry of a
+  [two-wheeled differential drive robot](/urdf/diff_drive.urdf.xacro)
+
+**Version 0.1.4** (2022/04/07)
+
+- Fixed gravity bug of having only 1 simulated caster wheel for `diff_drive`
+- `diff_drive` model compatible with different radius for each wheel (left
+  and right)
+
 **Version 0.1.3** (2022/04/06)
 
 - Usage of the
