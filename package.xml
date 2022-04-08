@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>robot_sim_diff_drive_rbs</name>
-  <version>0.1.2</version>
+  <version>0.1.4</version>
   <description>The robot_sim_diff_drive_rbs package</description>
 
   <!-- Maintainer -->
@@ -19,7 +19,7 @@
   <!-- Dependencies -->
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>controller_manager</run_depend>
-  <run_depend>diff_drive_controller</run_depend>
+  <run_depend>diff_drive_controller_rbs</run_depend>
   <run_depend>gazebo_ros</run_depend>
   <run_depend>gazebo_ros_control</run_depend>
   <run_depend>joint_state_controller</run_depend>

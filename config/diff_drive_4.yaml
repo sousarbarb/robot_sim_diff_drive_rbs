@@ -1,4 +1,4 @@
-type: "diff_drive_controller/DiffDriveController"
+type: "diff_drive_controller_rbs/DiffDriveController"
 publish_rate: 50
 
 left_wheel: ['left_front_wheel_joint', 'left_back_wheel_joint']
