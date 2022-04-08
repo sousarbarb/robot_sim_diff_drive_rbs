@@ -8,8 +8,8 @@
 
   <!-- Xacro properties definition -->
   <xacro:property name="odom_dist_wh" value="0.2"/>
-  <xacro:property name="odom_diam_wh_r" value="0.07"/>
-  <xacro:property name="odom_diam_wh_l" value="0.05"/>
+  <xacro:property name="odom_diam_wh_r" value="0.06"/>
+  <xacro:property name="odom_diam_wh_l" value="0.06"/>
   <xacro:property name="odom_diam"
                   value="${(odom_diam_wh_r+odom_diam_wh_l)/2}"/>
   <xacro:property name="odom_diam_max"
@@ -22,6 +22,13 @@
   <xacro:property name="body_width"
                   value="${odom_dist_wh-wh_thick-2*body_wh_space}"/>
   <xacro:property name="body_height" value="0.1"/>
+  <xacro:property name="laser_lx" value="0.0"/>
+  <xacro:property name="laser_ly" value="0.0"/>
+  <xacro:property name="laser_lz"
+                  value="${-odom_diam_max/2+body_gnd_height+body_height}"/>
+  <xacro:property name="laser_rr" value="0.0"/>
+  <xacro:property name="laser_rp" value="0.0"/>
+  <xacro:property name="laser_ry" value="0.0"/>
 
 
   <!-- Materials definition -->
@@ -44,7 +51,7 @@
     filename="$(find robot_sim_diff_drive_rbs)/urdf/inertia.urdf.xacro"/>
 
   <!-- + caster wheel macro: -->
-  <xacro:macro name="caster_wheel" params="prefix reflect">
+  <xacro:macro name="caster_wheel" params="prefix reflect offset:=0">
     <link name="${prefix}_caster_wheel">
       <visual>
         <!-- Origin relative to the link frame -->
@@ -72,7 +79,7 @@
       <parent link="base_link"/>
       <child link="${prefix}_caster_wheel"/>
       <origin
-        xyz="${reflect*(body_len/2-wh_caster_diam/2)} 0 ${wh_caster_diam/2-odom_diam_max/2}"
+        xyz="${reflect*offset} 0 ${wh_caster_diam/2-odom_diam_max/2}"
         rpy="0 0 0"/>
     </joint>
     <gazebo reference="${prefix}_caster_wheel">
@@ -153,15 +160,15 @@
       <material name="blue"/>
     </visual>
     <collision>
-      <origin xyz="0 0 ${-odom_diam_max/2+body_gnd_height+body_height/2}"
-              rpy="0 0 0"/>
+      <origin
+        xyz="${odom_diam_max/2-body_len/2} 0 ${-odom_diam_max/2+body_gnd_height+body_height/2}"
+        rpy="0 0 0"/>
       <geometry>
-        <box size="${odom_diam_max} ${body_width} ${body_height}"/>
+        <box size="${body_len} ${body_width} ${body_height}"/>
       </geometry>
     </collision>
-    <xacro:inertial_body_cuboid mass="1.00"
-                                size_x="${odom_diam_max}" size_y="${body_width}"
-                                size_z="${body_height}"/>
+    <xacro:inertial_body_cuboid mass="1.00" size_x="${body_len}"
+                                size_y="${body_width}" size_z="${body_height}"/>
   </link>
 
 
@@ -171,8 +178,8 @@
 
 
   <!-- Caster Wheels -->
-  <xacro:caster_wheel prefix="front" reflect="1"/>
-  <xacro:caster_wheel prefix="back"  reflect="-1"/>
+  <xacro:caster_wheel prefix="back" reflect="-1"
+                      offset="${body_len-odom_diam_max}"/>
 
 
   <!-- Sensors -->
@@ -180,8 +187,8 @@
       filename="$(find robot_sim_diff_drive_rbs)/urdf/hokuyo_ust10.urdf.xacro"/>
   <xacro:hokuyo_ust10_mount prefix="base" topic="base_laser"
                             parent_link="base_link">
-    <origin xyz="0 0 ${-odom_diam_max/2+body_gnd_height+body_height}"
-            rpy="0 0 0"/>
+    <origin xyz="${laser_lx} ${laser_ly} ${laser_lz}"
+            rpy="${laser_rr} ${laser_rp} ${laser_ry}"/>
   </xacro:hokuyo_ust10_mount>
 
 
