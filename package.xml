@@ -15,6 +15,8 @@
 
   <!-- Author -->
   <author email="sousa.ricardob@outlook.com">Ricardo B. Sousa</author>
+  <author email="heber.m.sobreira@inesctec.pt">Héber Miguel Sobreira</author>
+  <author email="amoreira@fe.up.pt">António Paulo Moreira</author>
 
   <!-- Dependencies -->
   <buildtool_depend>catkin</buildtool_depend>
